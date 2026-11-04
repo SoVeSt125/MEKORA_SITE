@@ -1,43 +1,14 @@
-# MEKORA — cinematic website (v1)
+# MEKORA WebGL cinematic site
 
-Работающий статический сайт без сборки и внешних зависимостей. Адаптивный экран, 6 сцен со скролл-управляемой камерой, векторная модель датчика с послойной анимацией, зелёная навигационная линия, блок возможностей и CTA.
+Vite + Three.js procedural prototype. The cinematic block is one sticky WebGL canvas driven by normalized scroll progress `0..5`. It contains separate meshes for motor, contact layer, mounting plate, Core and four screws; camera keyframes move between six detail shots and component transforms are reversible on scroll back.
 
-## Запуск
-
-Просто откройте `index.html` в браузере. Для локального сервера (рекомендуется):
+## Run
 
 ```bash
-cd mekora-site
-python -m http.server 8080
+npm install
+npm run dev
 ```
 
-Откройте `http://localhost:8080`.
+Open `http://localhost:5173`. Production build: `npm run build`.
 
-## Публикация на Vercel
-
-1. Загрузите папку в отдельный GitHub-репозиторий или в корень существующего проекта.
-2. Импортируйте репозиторий в Vercel.
-3. Framework Preset: **Other**; build command не требуется; output directory: `.`.
-4. Deploy.
-
-## Устройство
-
-- `index.html` — разметка и иллюстрация деталей датчика в виде SVG.
-- `styles.css` — минималистичный интерфейс, типографика и адаптивность.
-- `app.js` — 6 состояний скролла, интерполяция камеры и движение частей.
-
-## Ограничения текущей версии
-
-Техническая иллюстрация является приближённой визуализацией по предоставленному референсу, **не инженерной CAD-моделью**. Разборка на основе SVG и анимации атрибутов `viewBox` имитирует операторскую камеру. Для реалистичного 3D с отражениями, физически точными деталями и вращением винтов потребуется подготовленная GLB/GLTF-модель или CAD-исходники, затем WebGL/Three.js.
-
-CTA «Обсудить внедрение» ведёт в финальный блок. В этом прототипе нет адреса получателя и бэкенда отправки заявки, поэтому функциональная кнопка **копирует текст запроса**; контактные данные и реальную отправку нужно подключить отдельно.
-
-Данные по измерениям и модулям — концепция продукта; это не подтверждённые спецификации серийного изделия. 
-
-## Следующие задачи
-
-1. Подготовить отдельные 3D-детали: крепёж, Core, монтажная основа, клеевой слой, двигатель.
-2. Уточнить геометрию, материалы и монтаж по CAD.
-3. Подменить SVG на Three.js / React Three Fiber и добавить движение камеры.
-4. Подключить заявку через согласованный почтовый адрес или CRM API.
-5. Проверить производительность на мобильных устройствах, улучшить доступность.
+The geometry is a demonstrative concept, not CAD. Replace procedural meshes with approved GLB/CAD assets when available. Main editing points: `src/main.js` (`anchors`, `scenes`, procedural mesh dimensions and scroll timeline), `src/style.css` (tokens and layout), and `index.html` (secondary content).
