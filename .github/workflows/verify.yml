@@ -1,0 +1,52 @@
+name: Verify MEKORA
+on: [push, pull_request]
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: mekora
+          POSTGRES_DB: mekora_test
+          POSTGRES_PASSWORD: ci-only-ephemeral-password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U mekora -d mekora_test"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24', cache: npm, cache-dependency-path: frontend/package-lock.json}
+      - run: |
+          python -m venv .venv
+          .venv/bin/pip install -r backend/requirements.lock
+      - name: SQLite pipeline and signals
+        run: .venv/bin/python -m pytest backend/tests simulator/tests -q
+      - name: PostgreSQL pipeline and migrations
+        env:
+          MEKORA_TEST_DATABASE_URL: postgresql+psycopg://mekora:ci-only-ephemeral-password@localhost:5432/mekora_test
+        run: .venv/bin/python -m pytest backend/tests simulator/tests -q
+      - run: npm ci && npm run format:check && npm run build
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - name: Start real local services
+        run: |
+          .venv/bin/python scripts/init_env.py
+          .venv/bin/python scripts/run_local.py > /tmp/mekora.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://localhost:5173/api/health; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/mekora.log
+          exit 1
+      - run: npm run test:e2e
+        working-directory: frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mekora-browser-screenshots
+          path: docs/screenshots/
