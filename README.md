@@ -24,8 +24,10 @@
 1. Установите [Docker Desktop для Windows](https://docs.docker.com/desktop/setup/install/windows-install/).
    При предложении включить WSL 2 согласитесь, перезагрузите компьютер и запустите
    Docker Desktop. Дождитесь состояния «Engine running».
-2. Скачайте репозиторий: **Code → Download ZIP**, распакуйте, например в
-   `C:\Projects\MEKORA_SITE`. Либо `git clone https://github.com/SoVeSt125/MEKORA_SITE.git`.
+2. Откройте в GitHub ветку **`codex/mekora-monitor` → Code → Download ZIP**,
+   распакуйте, например в `C:\Projects\MEKORA_SITE`. Либо выполните
+   `git clone --branch codex/mekora-monitor https://github.com/SoVeSt125/MEKORA_SITE.git`.
+   В `main` находится отдельный сайт; исходники Monitor опубликованы в указанной ветке.
 3. Откройте папку проекта в Проводнике. В адресной строке введите `powershell`
    и нажмите Enter. Вы должны находиться рядом с `docker-compose.yml`.
 4. Создайте локальную конфигурацию:
