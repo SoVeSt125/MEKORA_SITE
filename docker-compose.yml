@@ -1,0 +1,62 @@
+name: mekora
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mekora
+      POSTGRES_USER: mekora
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run scripts/init_env.py first}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U mekora -d mekora"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      MEKORA_DATABASE_URL: postgresql+psycopg://mekora:${POSTGRES_PASSWORD}@database:5432/mekora
+      MEKORA_ADMIN_PASSWORD: ${MEKORA_ADMIN_PASSWORD:?Run scripts/init_env.py first}
+      MEKORA_SIMULATOR_KEY: ${MEKORA_SIMULATOR_KEY:?Run scripts/init_env.py first}
+      MEKORA_DEMO_ENABLED: ${MEKORA_DEMO_ENABLED:-true}
+      MEKORA_COOKIE_SECURE: ${MEKORA_COOKIE_SECURE:-false}
+      MEKORA_STALE_SECONDS: ${MEKORA_STALE_SECONDS:-30}
+      MEKORA_ALLOWED_ORIGINS: ${MEKORA_ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
+    depends_on:
+      database: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      backend: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, "http://127.0.0.1:8080/api/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+  simulator:
+    build:
+      context: .
+      dockerfile: simulator/Dockerfile
+    environment:
+      MEKORA_API_URL: http://backend:8000
+      MEKORA_SIMULATOR_KEY: ${MEKORA_SIMULATOR_KEY:?Run scripts/init_env.py first}
+    volumes: [simulator_data:/app/data]
+    depends_on:
+      backend: {condition: service_healthy}
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  simulator_data:
