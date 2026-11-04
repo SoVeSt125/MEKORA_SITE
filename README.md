@@ -9,6 +9,14 @@
 
 ![MEKORA Monitor](docs/screenshots/overview-light.png)
 
+## Существующий сайт MEKORA
+
+Статический сайт в корне (`index.html`, `styles.css`, `app.js`, `assets/`)
+сохранён из `origin/main` без изменений. Его [исходная инструкция](docs/product-site.md)
+находится отдельно. Сайт и Monitor имеют разные способы запуска: открытие корневого
+`index.html` показывает сайт; для приложения используйте инструкции ниже.
+Не запускайте сервер сайта на порту 8080 одновременно с Docker Monitor.
+
 ## Запуск на Windows: вариант 1 — Docker Desktop
 
 Этот вариант использует PostgreSQL. Python и Node.js на компьютере не нужны.
