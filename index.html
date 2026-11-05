@@ -1,1 +1,75 @@
-<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#fafcfa"><title>MEKORA — замечает до поломки</title></head><body><header class="top"><a class="logo" href="#top">MEKORA<span>/</span></a><nav><a href="#story">Устройство</a><a href="#about">Применение</a><a href="#contact">Запросить демо</a></nav></header><main id="top"><section class="story" id="story"><div class="stage"><canvas id="webgl" aria-label="Интерактивная 3D-модель MEKORA"></canvas><div class="copy" id="copy"><p class="eyebrow" id="eyebrow"></p><h1 id="title"></h1><p id="description"></p><a class="cta" id="cta" href="#contact">Исследовать устройство <b>↓</b></a></div><div class="hud"><span id="hud">MEKORA / 00</span><span class="hint">↕ Прокручивайте, чтобы исследовать</span></div><nav class="rail" id="rail" aria-label="Кинематографические кадры"><i class="track"><b id="fill"></b></i></nav><div class="counter"><button id="prev">←</button><span id="counter">01 / 06</span><button id="next">→</button></div></div><div class="spacer"></div></section><section class="about" id="about"><p class="eyebrow">ОДНА ПЛАТФОРМА</p><h2>Разные агрегаты.<br><span>Один подход.</span></h2><p>Двигатели · Насосы · Редукторы · Вентиляторы</p></section><section class="contact" id="contact"><p class="eyebrow">MEKORA / NEXT STEP</p><h2>Замечайте<br><span>раньше.</span></h2><p>Обсудим оборудование и первую конфигурацию с инженером.</p><button id="copy">Скопировать запрос на демонстрацию ↗</button><small id="feedback">CRM и контактный адрес подключаются отдельно.</small></section></main><script type="module" src="/src/main.js"></script></body></html>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="MEKORA — мониторинг промышленного оборудования до того, как остановится производство." />
+    <title>MEKORA — замечает до поломки</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="logo" href="#top" aria-label="MEKORA, на главную">MEKORA<span>/</span></a>
+      <nav class="topnav" aria-label="Основная навигация">
+        <a href="#explore">Устройство</a>
+        <a href="#about">Применение</a>
+        <a href="#contact">Запросить демо</a>
+      </nav>
+      <span class="topbar-status"><i></i> SYSTEM / READY</span>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-inner">
+          <p class="eyebrow">ИНТЕЛЛЕКТУАЛЬНЫЙ МОНИТОРИНГ / 001</p>
+          <h1 id="hero-title">Замечает.<br /><em>До поломки.</em></h1>
+          <p class="hero-lede">MEKORA слышит состояние промышленного оборудования, пока оно ещё работает.</p>
+          <a class="scroll-cue" href="#explore"><span></span>Прокрутите, чтобы разобрать</a>
+        </div>
+        <div class="hero-meta"><span>MEKORA / 2026</span><span>VIBRATION · TEMP · INSIGHT</span></div>
+      </section>
+
+      <section class="explore" id="explore" aria-labelledby="explore-title">
+        <div class="explore-stage">
+          <div class="stage-header">
+            <p class="eyebrow">РАЗБОРКА / 002</p>
+            <p class="stage-progress" aria-live="polite"><span id="progress-value">00</span> / 100</p>
+          </div>
+          <canvas id="sensor-canvas" aria-label="Интерактивная разборка датчика MEKORA"></canvas>
+          <img class="sensor-fallback" src="/frames/fallback.webp" alt="Собранный датчик MEKORA" />
+          <div class="stage-copy" id="stage-copy">
+            <p class="eyebrow" id="scene-eyebrow">ПОЛНОСТЬЮ СОБРАН</p>
+            <h2 id="explore-title">Один корпус.<br /><em>Много сигналов.</em></h2>
+            <p id="scene-description">Прокручивайте, чтобы увидеть, из чего складывается точность MEKORA.</p>
+          </div>
+          <div class="layer-notes" aria-live="polite">
+            <p class="layer-note" data-start="0.16" data-end="0.38"><b>01</b><span>Защитный корпус</span></p>
+            <p class="layer-note" data-start="0.34" data-end="0.58"><b>02</b><span>Сенсорный модуль</span></p>
+            <p class="layer-note" data-start="0.54" data-end="0.78"><b>03</b><span>Электронная плата</span></p>
+            <p class="layer-note" data-start="0.73" data-end="0.96"><b>04</b><span>Металлическое основание</span></p>
+          </div>
+          <p class="stage-hint"><span>↕</span> SCROLL TO EXPLORE</p>
+        </div>
+      </section>
+
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="section-number">003</div>
+        <div>
+          <p class="eyebrow">ОДНА ПЛАТФОРМА</p>
+          <h2 id="about-title">Разные агрегаты.<br /><em>Один подход.</em></h2>
+        </div>
+        <p class="about-copy">Двигатели · Насосы · Редукторы · Вентиляторы<br />Физические сигналы превращаются в понятные решения инженера.</p>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <p class="eyebrow">MEKORA / NEXT STEP</p>
+        <h2 id="contact-title">Замечайте<br /><em>раньше.</em></h2>
+        <p>Обсудим оборудование и первую конфигурацию с инженером.</p>
+        <button id="copy-request" type="button">Скопировать запрос на демонстрацию <span>↗</span></button>
+        <small id="copy-feedback">CRM и контактный адрес подключаются отдельно.</small>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
