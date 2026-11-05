@@ -10,7 +10,7 @@ const password =
     ?.split('=')
     .slice(1)
     .join('=')
-const shots = resolve('../docs/screenshots')
+const shots = resolve(process.env.MEKORA_SCREENSHOT_DIR || '../docs/screenshots')
 test('UI → реальный симулятор → API → БД → графики → предупреждение → осмотр → восстановление', async ({
   page,
 }) => {

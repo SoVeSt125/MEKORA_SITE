@@ -25,6 +25,8 @@ jobs:
           .venv/bin/pip install -r backend/requirements.lock
       - name: SQLite pipeline and signals
         run: .venv/bin/python -m pytest backend/tests simulator/tests -q
+      - name: Launchers from another directory and concurrent site/Monitor
+        run: .venv/bin/python -m pytest scripts/tests -q
       - name: PostgreSQL pipeline and migrations
         env:
           MEKORA_TEST_DATABASE_URL: postgresql+psycopg://mekora:ci-only-ephemeral-password@localhost:5432/mekora_test
@@ -36,7 +38,7 @@ jobs:
       - name: Start real local services
         run: |
           .venv/bin/python scripts/init_env.py
-          .venv/bin/python scripts/run_local.py > /tmp/mekora.log 2>&1 &
+          .venv/bin/python scripts/run_local.py --no-browser > /tmp/mekora.log 2>&1 &
           for attempt in $(seq 1 60); do
             if curl --fail --silent http://localhost:5173/api/health; then exit 0; fi
             sleep 1

@@ -1,5 +1,7 @@
 @echo off
 chcp 65001 >nul
+setlocal
+set PYTHONUTF8=1
 cd /d "%~dp0"
 where py >nul 2>&1
 if errorlevel 1 (
@@ -13,20 +15,13 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-if not exist .venv\Scripts\python.exe py -3.12 -m venv .venv
+if not exist .venv\Scripts\python.exe py -3.12 -m venv "%~dp0.venv"
 if errorlevel 1 goto fail
-call .venv\Scripts\python.exe -m pip install -r backend\requirements.lock
+.venv\Scripts\python.exe "%~dp0scripts\prepare_local.py"
 if errorlevel 1 goto fail
-pushd frontend
-call npm ci
-if errorlevel 1 (
-  popd
-  goto fail
-)
-popd
-.venv\Scripts\python.exe scripts\init_env.py
+.venv\Scripts\python.exe "%~dp0scripts\init_env.py"
 if errorlevel 1 goto fail
-.venv\Scripts\python.exe scripts\run_local.py
+.venv\Scripts\python.exe "%~dp0scripts\run_local.py" %*
 if errorlevel 1 goto fail
 exit /b 0
 :fail
